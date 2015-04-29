@@ -73,7 +73,7 @@ local Erange = 500
 local Ewidth = nil 
 local Espeed = nil 
 local Edelay = 0.5
-local Qready, Wready, Eready, Rready = false
+local QREADY, WREADY, EREADY, RREADY = false
 
 local ignite = nil
 local rrange = 3500
