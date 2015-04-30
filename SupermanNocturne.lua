@@ -452,8 +452,8 @@ function Comboo()
                 CastSpell(_E, ts.target)
             end
             if Config.keys.Combo and Config.Combo.Usew then
-                if ValidTarget(ts.target, Wrange) then
-                    if WREADY and GetDistance(ts.target) <= 500 then
+                if ValidTarget(ts.target, 300) then
+                    if WREADY and GetDistance(ts.target, 300) then
                         CastSpell(_W)
                                             end
                                         end
