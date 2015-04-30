@@ -120,15 +120,20 @@ function OnLoad()
         --------jungleclear-----------
         Config:addSubMenu("Jungleclear", "Jungleclear")
         Config.Jungleclear:addParam("Jungq", "Use Q in Jungleclear", SCRIPT_PARAM_ONOFF, true)
-        Config.Jungleclear:addParam("Junge", "Use E in Jungleclear", SCRIPT_PARAM_ONOFF, false)
- 
+
+
+
  
  
  
         -------Laneclear--------
         Config:addSubMenu("Laneclear", "Laneclear")
         Config.Laneclear:addParam("laneq", "Use Q in Laneclear", SCRIPT_PARAM_ONOFF, true)
-        Config.Laneclear:addParam("lanee", "Use E in Laneclear", SCRIPT_PARAM_ONOFF, false)
+				
+				
+
+
+
  
  
  
@@ -243,6 +248,8 @@ function Summoners()
 										jjungleclear() end
 										  EnemyMinions:update()
   jungleMinions:update()
+	if Config.keys.Laneclear then
+	llaneclear() end
 end
 
 
@@ -474,6 +481,8 @@ end
 
 
 
+
+
 function KillstealgG()
         for i, enemy in pairs(GetEnemyHeroes()) do
         if ValidTarget(enemy) and not enemy.dead then
@@ -506,10 +515,26 @@ for i, jungleMinion in pairs(jungleMinions.objects) do
           if QREADY and Config.Jungleclear.Jungq then
             CastSpell(_Q, jungleMinion.x, jungleMinion.z)
           end
-   if Eready and Config.Jungleclear.Junge and GetDistance(jungleMinion) <= Erange then
-            CastSpell(_E, jungleMinion)
-			 
+
 end
+end
+end
+end
+
+
+
+
+
+
+
+
+function llaneclear()
+ if jungleMinion == nil then
+    for i, minion in pairs(EnemyMinions.objects) do
+      if minion ~= nil then
+			if QREADY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
+			CastSpell(_Q, minion.x, minion.z)
+			end
 end
 end
 end
