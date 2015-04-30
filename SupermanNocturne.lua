@@ -172,8 +172,8 @@ function OnLoad()
        Config:addSubMenu("AutoW","AutoW")
        Config.AutoW:addSubMenu("maybe somday^^", "tm")
 			 
-			 Config:addSubMenu("Exta Options", "autolevel")
-			 Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
+	 Config:addSubMenu("Auto Level Skills", "autolevel")
+	 Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
 
 
 
