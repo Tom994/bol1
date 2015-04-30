@@ -61,10 +61,11 @@ require "VPrediction"
  
  
 local ts
-ts = TargetSelector(TARGET_LESS_CAST_PRIORITY, 3500, DAMAGE_PHYSICAL)
+ts = TargetSelector(TARGET_MOST_AD, 3500, DAMAGE_PHYSICAL)
 --- if you want to use the ultimate ability manuel change the range into like 700-1000 max. for better spellcasting
 --- it will not ult people if they away then 1000 range maybe just in ks mode :|
---- ts = TargetSelector(TARGET_LESS_CAST_PRIORITY, 850/1000--------
+--- ts = TargetSelector(TARGET_MOST_AD, 3500, DAMAGE_PHYSICAL), 850/1000--------
+---- and also should set Use R /Rks  off
 local VP
  
  
@@ -76,7 +77,8 @@ local Edelay = 0.5
 local QREADY, WREADY, EREADY, RREADY = false
 
 local ignite = nil
-local rrange = 3500
+local levelSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
+
 
  
  
@@ -169,6 +171,9 @@ function OnLoad()
  
        Config:addSubMenu("AutoW","AutoW")
        Config.AutoW:addSubMenu("maybe somday^^", "tm")
+			 
+			 Config:addSubMenu("Exta Options", "autolevel")
+			 Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
 
 
 
@@ -227,6 +232,9 @@ function Summoners()
                     if Config.KillSteal.Rsteal then
                         KillstealgG()
                     end
+										if Config.autolevel.autolvl then
+										autoLevelSetSequence(levelSequence)
+										end
 end
 
 
@@ -458,7 +466,7 @@ function KillstealgG()
         if ValidTarget(enemy) and not enemy.dead then
             RDMG = getDmg("R", enemy, myHero)
             if enemy.health < RDMG then
-                if GetDistance(enemy) <= rrange then
+                if GetDistance(enemy) <= GetRRange() then
                     if Config.KillSteal.Rsteal then
                         CastSpell(_R, enemy)
                     end
