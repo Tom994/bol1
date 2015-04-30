@@ -75,6 +75,7 @@ local Ewidth = nil
 local Espeed = nil 
 local Edelay = 0.5
 local QREADY, WREADY, EREADY, RREADY = false
+local Wrange = 500
 
 local ignite = nil
 local levelSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
@@ -143,6 +144,9 @@ function OnLoad()
         Config.items:addParam("item1", "use youmus", SCRIPT_PARAM_ONOFF, true)
         Config.items:addParam("useblade", "Use Botrk", SCRIPT_PARAM_ONOFF, true)
         Config.items:addParam("usehydra", "Use Hydra", SCRIPT_PARAM_ONOFF, true)
+				
+				EnemyMinions = minionManager(MINION_ENEMY, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
+        jungleMinions = minionManager(MINION_JUNGLE, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
 
 
 
@@ -162,7 +166,7 @@ function OnLoad()
         Config.ddDraw:addParam("drawq", "Draw Q range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawe", "Draw E range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawr", "Draw R range", SCRIPT_PARAM_ONOFF, true)
- 
+				Config.ddDraw:addParam("drawaa", "Draw AA", SCRIPT_PARAM_ONOFF, false)
  
  
  
@@ -170,7 +174,7 @@ function OnLoad()
         SxOrb:LoadToMenu(Config.Orbwalker)
  
        Config:addSubMenu("AutoW","AutoW")
-       Config.AutoW:addSubMenu("maybe somday^^", "tm")
+       Config.AutoW:addSubMenu("maybe somday", "tm")
 			 
 	 Config:addSubMenu("Auto Level Skills", "autolevel")
 	 Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
@@ -235,6 +239,10 @@ function Summoners()
 										if Config.autolevel.autolvl then
 										autoLevelSetSequence(levelSequence)
 										end
+										if Config.keys.Jungleclear then
+										jjungleclear() end
+										  EnemyMinions:update()
+  jungleMinions:update()
 end
 
 
@@ -291,10 +299,12 @@ CastSpell(GetInventorySlotItem(3074))
  
 function Ulti()
   local RRange = GetRRange()
-  if myHero:CanUseSpell(_R) == READY and GetDistance(ts.target) <= RRange then
+	if ValidTarget(ts.target) then
+  if RREADY and GetDistance(ts.target) <= RRange then
     CastSpell(_R, ts.target)
     CastSpell(_R, ts.target)
   end
+end
 end
  
  
@@ -384,6 +394,9 @@ function OnDraw()
         if Config.ddDraw.drawe and EREADY then
         DrawCircle(myHero.x, myHero.y, myHero.z, 425, 0xFF000)
         end
+				if Config.ddDraw.drawaa then
+				DrawCircle(myHero.x, myHero.y, myHero.z, 126, 0xFF000)
+				end
 end
  
  
@@ -427,12 +440,12 @@ function Comboo()
         CastSpell(_Q, CastPosition.x, CastPosition.z)
     end
     if Config.keys.Combo and Config.Combo.Usee then
-        if ValidTarget(ts.target) then
+        if ValidTarget(ts.target, Erange) then
             if EREADY and GetDistance(ts.target) <= Erange then
                 CastSpell(_E, ts.target)
             end
             if Config.keys.Combo and Config.Combo.Usew then
-                if ValidTarget(ts.target) then
+                if ValidTarget(ts.target, Wrange) then
                     if WREADY and GetDistance(ts.target) <= 500 then
                         CastSpell(_W)
                                             end
@@ -475,4 +488,29 @@ function KillstealgG()
             end
         end
     end
+end
+
+
+
+
+
+
+
+
+
+
+function jjungleclear()
+for i, jungleMinion in pairs(jungleMinions.objects) do
+    if jungleMinion ~= nil then
+        if GetDistance(jungleMinion) <= Qrange then
+          if QREADY and Config.Jungleclear.Jungq then
+            CastSpell(_Q, jungleMinion.x, jungleMinion.z)
+          end
+   if Eready and Config.Jungleclear.Junge and GetDistance(jungleMinion) <= Erange then
+            CastSpell(_E, jungleMinion)
+			 
+end
+end
+end
+end
 end
