@@ -120,7 +120,7 @@ function OnLoad()
         --------jungleclear-----------
         Config:addSubMenu("Jungleclear", "Jungleclear")
         Config.Jungleclear:addParam("Jungq", "Use Q in Jungleclear", SCRIPT_PARAM_ONOFF, true)
-        Config.Jungleclear:addParam("Junge", "Use E in Jungleclear", SCRIPT_PARAM_ONOFF, true)
+        Config.Jungleclear:addParam("Junge", "Use E in Jungleclear", SCRIPT_PARAM_ONOFF, false)
  
  
  
