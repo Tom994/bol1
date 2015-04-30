@@ -493,12 +493,22 @@ function KillstealgG()
                         CastSpell(_R, enemy)
                         CastSpell(_R, enemy)
                     end
-                end
-            end
-        end
-    end
+										if ValidTarget(enemy) and not enemy.dead then
+										QDMG = getDmg("Q", enemy, myHero
+										if enemy health < QDMG then
+										if GetDistance(enemy) <= Qrange then
+										if Config.KillSteal.Qsteal then
+										CastSpell(_Q, enemy)
 end
-
+end
+end
+end
+end
+end
+end
+end
+end
+end
 
 
 
