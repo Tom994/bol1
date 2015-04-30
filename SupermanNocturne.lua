@@ -469,6 +469,7 @@ function KillstealgG()
                 if GetDistance(enemy) <= GetRRange() then
                     if Config.KillSteal.Rsteal then
                         CastSpell(_R, enemy)
+                        CastSpell(_R, enemy)
                     end
                 end
             end
