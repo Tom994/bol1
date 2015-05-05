@@ -101,7 +101,7 @@ function OnLoad()
         -----Combo-----------------
         Config:addSubMenu("Combo", "Combo")
         Config.Combo:addParam("Useq", "Use Q in Combo", SCRIPT_PARAM_ONOFF, true)
-        Config.Combo:addParam("Usew", "Use W in Combo (better do it manuel)", SCRIPT_PARAM_ONOFF, false)
+        Config.Combo:addParam("Usew", "Use W in Combo (better do it manually )", SCRIPT_PARAM_ONOFF, false)
         Config.Combo:addParam("Usee", "Use E in Combo", SCRIPT_PARAM_ONOFF, true)
         Config.Combo:addParam("User", "Use R in Combo [K ONOFF]", SCRIPT_PARAM_ONKEYTOGGLE, false, string.byte ("K"))
         Config.Combo:permaShow("User")
