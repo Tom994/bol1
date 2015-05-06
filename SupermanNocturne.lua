@@ -129,8 +129,8 @@ function OnLoad()
         -------Laneclear--------
         Config:addSubMenu("[Superman Nocturne]: Laneclear", "Laneclear")
         Config.Laneclear:addParam("laneq", "Use Q in Laneclear", SCRIPT_PARAM_ONOFF, true)
-				
-				
+                
+                
 
 
 
@@ -149,8 +149,8 @@ function OnLoad()
         Config.items:addParam("item1", "use youmus", SCRIPT_PARAM_ONOFF, true)
         Config.items:addParam("useblade", "Use Botrk", SCRIPT_PARAM_ONOFF, true)
         Config.items:addParam("usehydra", "Use Hydra", SCRIPT_PARAM_ONOFF, true)
-				
-				EnemyMinions = minionManager(MINION_ENEMY, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
+                
+                EnemyMinions = minionManager(MINION_ENEMY, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
         jungleMinions = minionManager(MINION_JUNGLE, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
 
 
@@ -171,7 +171,7 @@ function OnLoad()
         Config.ddDraw:addParam("drawq", "Draw Q range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawe", "Draw E range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawr", "Draw R range", SCRIPT_PARAM_ONOFF, true)
-				Config.ddDraw:addParam("drawaa", "Draw AA", SCRIPT_PARAM_ONOFF, false)
+                Config.ddDraw:addParam("drawaa", "Draw AA", SCRIPT_PARAM_ONOFF, false)
  
  
  
@@ -180,15 +180,16 @@ function OnLoad()
  
        Config:addSubMenu("[Superman Nocturne]: AutoW","AutoW")
        Config.AutoW:addSubMenu("maybe somday", "tm")
-			 
-	 Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
-	 Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
+             
+     Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
+     Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
 
 
 
  
         Config:addSubMenu("[Superman Nocturne] Selector", "TS")
-				TargetSelector.name = "Nocturne"
+                Config.TS:addParam("ff20", "Focus Selected target", SCRIPT_PARAM_ONOFF, false)
+                TargetSelector.name = "Nocturne"
         Config.TS:addTS(ts)
 end
 
@@ -241,15 +242,15 @@ function Summoners()
                     if Config.KillSteal.Rsteal  then
                         KillstealgG()
                     end
-										if Config.autolevel.autolvl then
-										autoLevelSetSequence(levelSequence)
-										end
-										if Config.keys.Jungleclear then
-										jjungleclear() end
-										  EnemyMinions:update()
+                                        if Config.autolevel.autolvl then
+                                        autoLevelSetSequence(levelSequence)
+                                        end
+                                        if Config.keys.Jungleclear then
+                                        jjungleclear() end
+                                          EnemyMinions:update()
   jungleMinions:update()
-	if Config.keys.Laneclear then
-	llaneclear() end
+    if Config.keys.Laneclear then
+    llaneclear() end
 end
 
 
@@ -306,7 +307,7 @@ CastSpell(GetInventorySlotItem(3074))
  
 function Ulti()
   local RRange = GetRRange()
-	if ValidTarget(ts.target) then
+    if ValidTarget(ts.target) then
   if RREADY and GetDistance(ts.target) <= RRange then
     CastSpell(_R, ts.target)
     CastSpell(_R, ts.target)
@@ -401,9 +402,9 @@ function OnDraw()
         if Config.ddDraw.drawe and EREADY then
         DrawCircle(myHero.x, myHero.y, myHero.z, 425, 0xFF000)
         end
-				if Config.ddDraw.drawaa then
-				DrawCircle(myHero.x, myHero.y, myHero.z, 126, 0xFF000)
-				end
+                if Config.ddDraw.drawaa then
+                DrawCircle(myHero.x, myHero.y, myHero.z, 126, 0xFF000)
+                end
 end
  
  
@@ -493,17 +494,17 @@ function KillstealgG()
                         CastSpell(_R, enemy)
                         CastSpell(_R, enemy)
                     end
-									if ValidTarget(enemy) and not enemy.dead and QREADY then
-									QDMG = getDmg("Q", enemy, myHero)
-									if enemy.health < QDMG then
-									if GetDistance(enemy) <= Qrange then
-									local CastPosition, HitChance, CastPosition = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
-									if HitChance >= 2 then
-									CastSpell(_Q, CastPosition.x, CastPosition.z)
-									end
-			end
-		end
-	end
+                                    if ValidTarget(enemy) and not enemy.dead and QREADY then
+                                    QDMG = getDmg("Q", enemy, myHero)
+                                    if enemy.health < QDMG then
+                                    if GetDistance(enemy) <= Qrange then
+                                    local CastPosition, HitChance, CastPosition = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
+                                    if HitChance >= 2 then
+                                    CastSpell(_Q, CastPosition.x, CastPosition.z)
+                                    end
+            end
+        end
+    end
 end
 end
 end
@@ -544,10 +545,36 @@ function llaneclear()
  if jungleMinion == nil then
     for i, minion in pairs(EnemyMinions.objects) do
       if minion ~= nil then
-			if QREADY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
-			CastSpell(_Q, minion.x, minion.z)
-			end
+            if QREADY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
+            CastSpell(_Q, minion.x, minion.z)
+            end
 end
 end
 end
+end
+
+
+
+
+
+function OnWndMsg(Msg, Key)
+    if Msg == WM_LBUTTON and Config.keys.Combo then
+        local ddDistance55 = 0
+        local abctarget = nil
+        for i, unit in ipairs(GetEnemyHeroes()) do
+            if ValidTarget(enemy) then
+                if GetDistance(enemy, mousePos) <= ddDistance55 or abctarget == nil then
+                    ddDistance55 = GetDistance(enemy, mousePos)
+                    abctarget = enemy
+                end
+            end
+        end
+        if abctarget and ddDistance55 < 150 then
+            if SelectedTarget and Target.charName == SelectedTarget.charName then
+                SelectedTarget = nil
+            else
+                SelectedTarget = Target
+            end
+        end
+    end
 end
