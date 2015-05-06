@@ -75,7 +75,7 @@ local Ewidth = nil
 local Espeed = nil 
 local Edelay = 0.5
 local QREADY, WREADY, EREADY, RREADY = false
-local Wrange = 500
+local Wrange = nil
 
 local ignite = nil
 local levelSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
@@ -238,7 +238,7 @@ function Summoners()
                 end
                 if Config.KillSteal.Qsteal then
                     KillstealgG() end
-                    if Config.KillSteal.Rsteal and Config.Combo.User then
+                    if Config.KillSteal.Rsteal  then
                         KillstealgG()
                     end
 										if Config.autolevel.autolvl then
@@ -453,7 +453,7 @@ function Comboo()
             end
             if Config.keys.Combo and Config.Combo.Usew then
                 if ValidTarget(ts.target, Wrange) then
-                    if WREADY and GetDistance(ts.target) <= 500 then
+                    if WREADY and GetDistance(ts.target) then
                         CastSpell(_W)
                                             end
                                         end
@@ -485,7 +485,7 @@ end
 
 function KillstealgG()
         for i, enemy in pairs(GetEnemyHeroes()) do
-        if ValidTarget(enemy) and not enemy.dead then
+        if ValidTarget(enemy) and not enemy.dead and RREADY then
             RDMG = getDmg("R", enemy, myHero)
             if enemy.health < RDMG then
                 if GetDistance(enemy) <= GetRRange() then
@@ -493,21 +493,24 @@ function KillstealgG()
                         CastSpell(_R, enemy)
                         CastSpell(_R, enemy)
                     end
-										if ValidTarget(enemy) and not enemy.dead then
-										QDMG = getDmg("Q", enemy, myHero)
-										if enemy.health < QDMG then
-										if GetDistance(enemy) <= Qrange then
-										if Config.KillSteal.Qsteal then
-										CastSpell(_Q, enemy)
+									if ValidTarget(enemy) and not enemy.dead and QREADY then
+									QDMG = getDmg("Q", enemy, myHero)
+									if enemy.health < QDMG then
+									if GetDistance(enemy) <= Qrange then
+									local CastPosition, HitChance, CastPosition = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
+									if HitChance >= 2 then
+									CastSpell(_Q, CastPosition.x, CastPosition.z)
+									end
+			end
+		end
+	end
 end
 end
 end
 end
 end
-end
-end
-end
-end
+
+
 
 
 
