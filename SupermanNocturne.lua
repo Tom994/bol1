@@ -230,7 +230,7 @@ function Summoners()
          Comboo()
                  hydra2()
         GetRRange()
-                Checks()
+                Abillities()
                 if Config.keys.Herass and Config.Herass.Herass2 then
                 herass2()
                 end
@@ -254,7 +254,7 @@ function Summoners()
 end
 
 
-function Checks()
+function Abillities()
 QREADY = (myHero:CanUseSpell(_Q) == READY)
 WREADY = (myHero:CanUseSpell(_W) == READY)
 EREADY = (myHero:CanUseSpell(_E) == READY)
