@@ -89,8 +89,8 @@ function OnLoad()
         VP = VPrediction()
         Summoners()
         Update1()
-        Config = scriptConfig("Superman Nocturne", "Superman Nocturne")
-        Config:addSubMenu("Keys", "keys")
+        Config = scriptConfig("[Superman Nocturne]", "Superman Nocturne")
+        Config:addSubMenu("[Superman Nocturne]: Keys", "keys")
         Config.keys:addParam("Combo", "combo", SCRIPT_PARAM_ONKEYDOWN, false, 32)
         Config.keys:addParam("Laneclear", "laneclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("V"))
         Config.keys:addParam("Jungleclear", "jungleclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("N"))
@@ -99,9 +99,9 @@ function OnLoad()
  
  
         -----Combo-----------------
-        Config:addSubMenu("Combo", "Combo")
+        Config:addSubMenu("[Superman Nocturne]: Combo", "Combo")
         Config.Combo:addParam("Useq", "Use Q in Combo", SCRIPT_PARAM_ONOFF, true)
-        Config.Combo:addParam("Usew", "Use W in Combo (better do it manually )", SCRIPT_PARAM_ONOFF, false)
+        Config.Combo:addParam("Usew", "Use W in Combo (better do it manually)", SCRIPT_PARAM_ONOFF, false)
         Config.Combo:addParam("Usee", "Use E in Combo", SCRIPT_PARAM_ONOFF, true)
         Config.Combo:addParam("User", "Use R in Combo [K ONOFF]", SCRIPT_PARAM_ONKEYTOGGLE, false, string.byte ("K"))
         Config.Combo:permaShow("User")
@@ -110,7 +110,7 @@ function OnLoad()
  
        
         -----Herass-----------
-        Config:addSubMenu("Herass", "Herass")
+        Config:addSubMenu("[Superman Nocturne]: Herass", "Herass")
         Config.Herass:addParam("Herass1", "Use Q in Herass", SCRIPT_PARAM_ONOFF, true)
         Config.Herass:addParam("Herass2", "Use E in Herass", SCRIPT_PARAM_ONOFF, true)
  
@@ -118,7 +118,7 @@ function OnLoad()
  
  
         --------jungleclear-----------
-        Config:addSubMenu("Jungleclear", "Jungleclear")
+        Config:addSubMenu("[Superman Nocturne]: Jungleclear", "Jungleclear")
         Config.Jungleclear:addParam("Jungq", "Use Q in Jungleclear", SCRIPT_PARAM_ONOFF, true)
 
 
@@ -127,7 +127,7 @@ function OnLoad()
  
  
         -------Laneclear--------
-        Config:addSubMenu("Laneclear", "Laneclear")
+        Config:addSubMenu("[Superman Nocturne]: Laneclear", "Laneclear")
         Config.Laneclear:addParam("laneq", "Use Q in Laneclear", SCRIPT_PARAM_ONOFF, true)
 				
 				
@@ -138,14 +138,14 @@ function OnLoad()
  
  
  
-        Config:addSubMenu("KillSteal", "KillSteal")
+        Config:addSubMenu("[Superman Nocturne]: KillSteal", "KillSteal")
         Config.KillSteal:addParam("Qsteal", "KillSteal with Q", SCRIPT_PARAM_ONOFF, true)
         Config.KillSteal:addParam("Rsteal", "KillSteal with R", SCRIPT_PARAM_ONOFF, true)
         Config.KillSteal:addParam("ignite", "KillSteal with Ignite", SCRIPT_PARAM_ONOFF, true)
  
  
  
-        Config:addSubMenu("Use Items", "items")
+        Config:addSubMenu("[Superman Nocturne]: Use Items", "items")
         Config.items:addParam("item1", "use youmus", SCRIPT_PARAM_ONOFF, true)
         Config.items:addParam("useblade", "Use Botrk", SCRIPT_PARAM_ONOFF, true)
         Config.items:addParam("usehydra", "Use Hydra", SCRIPT_PARAM_ONOFF, true)
@@ -159,15 +159,15 @@ function OnLoad()
      -----------Extra Option-------------
  
  
-        Config:addParam("info", "Version:", SCRIPT_PARAM_INFO, ""..version.."")
-        Config:addParam("info2", "Author:", SCRIPT_PARAM_INFO, ""..author.."")
+        Config:addParam("info", "[Superman Nocturne]:Version:", SCRIPT_PARAM_INFO, ""..version.."")
+        Config:addParam("info2", "[Superman Nocturne]:Author:", SCRIPT_PARAM_INFO, ""..author.."")
  
         print("<font color='#FF999'> [Superman Nocturne Loaded] <font color='#FF5555'> By Tom94")
  
  
  
  
-        Config:addSubMenu("Drawings", "ddDraw")
+        Config:addSubMenu("[Superman Nocturne]: Drawings", "ddDraw")
         Config.ddDraw:addParam("drawq", "Draw Q range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawe", "Draw E range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawr", "Draw R range", SCRIPT_PARAM_ONOFF, true)
@@ -175,19 +175,19 @@ function OnLoad()
  
  
  
-        Config:addSubMenu("Orbwalker", "Orbwalker")
+        Config:addSubMenu("[Superman Nocturne]: Orbwalker", "Orbwalker")
         SxOrb:LoadToMenu(Config.Orbwalker)
  
-       Config:addSubMenu("AutoW","AutoW")
+       Config:addSubMenu("[Superman Nocturne]: AutoW","AutoW")
        Config.AutoW:addSubMenu("maybe somday", "tm")
 			 
-	 Config:addSubMenu("Auto Level Skills", "autolevel")
+	 Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
 	 Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
 
 
 
  
-        Config:addSubMenu("Target Selector", "TS")
+        Config:addSubMenu("[Superman Nocturne] Selector", "TS")
 				TargetSelector.name = "Nocturne"
         Config.TS:addTS(ts)
 end
@@ -238,7 +238,7 @@ function Summoners()
                 end
                 if Config.KillSteal.Qsteal then
                     KillstealgG() end
-                    if Config.KillSteal.Rsteal then
+                    if Config.KillSteal.Rsteal and Config.Combo.User then
                         KillstealgG()
                     end
 										if Config.autolevel.autolvl then
@@ -452,8 +452,8 @@ function Comboo()
                 CastSpell(_E, ts.target)
             end
             if Config.keys.Combo and Config.Combo.Usew then
-                if ValidTarget(ts.target, 300) then
-                    if WREADY and GetDistance(ts.target, 300) then
+                if ValidTarget(ts.target, Wrange) then
+                    if WREADY and GetDistance(ts.target) <= 500 then
                         CastSpell(_W)
                                             end
                                         end
