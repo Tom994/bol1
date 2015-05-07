@@ -40,26 +40,14 @@ if autoupdateenabled then
         AddTickCallback(update)
 end
 end
- 
- 
- 
- 
 if myHero.charName ~= "Nocturne" then return end
- 
- 
- 
 if VIP_USER then
     print("<font color='#FF000'> Cool you are VIP =)")
 else
     print("<font color='FF0000'> Hey VIP is really a good thing :P")
 end
- 
- 
 require "SxOrbWalk"
 require "VPrediction"
- 
- 
- 
 local ts
 ts = TargetSelector(TARGET_MOST_AD, 3500, DAMAGE_PHYSICAL)
 --- if you want to use the ultimate ability manuel change the range into like 700-1000 max. for better spellcasting
@@ -67,8 +55,6 @@ ts = TargetSelector(TARGET_MOST_AD, 3500, DAMAGE_PHYSICAL)
 --- ts = TargetSelector(TARGET_MOST_AD, 3500, DAMAGE_PHYSICAL), 850/1000--------
 ---- and also should set Use R /Rks  off
 local VP
- 
- 
 local Qrange, Qwidth, Qspeed, Qdelay = 1125, 60, 1600, .5
 local Erange = 500
 local Ewidth = nil 
@@ -76,15 +62,19 @@ local Espeed = nil
 local Edelay = 0.5
 local QREADY, WREADY, EREADY, RREADY = false
 local Wrange = nil
-
 local ignite = nil
 local levelSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
-
-
- 
- 
- 
- 
+local items =
+{
+    BRK = { id = 3153, range = 500, bbb = true, slot = nil },
+    BWC = { id = 3144, range = 400, bbb = true, slot = nil },
+    DFG = { id = 3128, range = 750, bbb = true, slot = nil },
+    HGB = { id = 3146, range = 400, bbb = true, slot = nil },
+    RSH = { id = 3074, range = 350, bbb = false, slot = nil },
+    STD = { id = 3131, range = 350, bbb = false, slot = nil },
+    TMT = { id = 3077, range = 350, bbb = false, slot = nil },
+    YGB = { id = 3142, range = 350, bbb = false, slot = nil }
+}
 function OnLoad()
         VP = VPrediction()
         Summoners()
@@ -96,9 +86,7 @@ function OnLoad()
         Config.keys:addParam("Laneclear", "laneclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("X"))
         Config.keys:addParam("Jungleclear", "jungleclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("X"))
         Config.keys:addParam("Herass", "Herass", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("C"))
- 
- 
- 
+
         -----Combo-----------------
         Config:addSubMenu("[Superman Nocturne]: Combo", "Combo")
         Config.Combo:addParam("Useq", "Use Q in Combo", SCRIPT_PARAM_ONOFF, true)
@@ -107,55 +95,31 @@ function OnLoad()
         Config.Combo:addParam("User", "Use R in Combo [K ONOFF]", SCRIPT_PARAM_ONKEYTOGGLE, false, string.byte ("K"))
         Config.Combo:permaShow("User")
  
- 
- 
-       
         -----Herass-----------
         Config:addSubMenu("[Superman Nocturne]: Herass", "Herass")
         Config.Herass:addParam("Herass1", "Use Q in Herass", SCRIPT_PARAM_ONOFF, true)
         Config.Herass:addParam("Herass2", "Use E in Herass", SCRIPT_PARAM_ONOFF, true)
  
- 
- 
- 
+
         --------jungleclear-----------
         Config:addSubMenu("[Superman Nocturne]: Jungleclear", "Jungleclear")
         Config.Jungleclear:addParam("Jungq", "Use Q in Jungleclear", SCRIPT_PARAM_ONOFF, true)
 
-
-
- 
- 
- 
         -------Laneclear--------
         Config:addSubMenu("[Superman Nocturne]: Laneclear", "Laneclear")
         Config.Laneclear:addParam("laneq", "Use Q in Laneclear", SCRIPT_PARAM_ONOFF, true)
                 
                 
 
-
-
- 
- 
- 
- 
         Config:addSubMenu("[Superman Nocturne]: KillSteal", "KillSteal")
         Config.KillSteal:addParam("Qsteal", "KillSteal with Q", SCRIPT_PARAM_ONOFF, true)
         Config.KillSteal:addParam("Rsteal", "KillSteal with R", SCRIPT_PARAM_ONOFF, true)
         Config.KillSteal:addParam("ignite", "KillSteal with Ignite", SCRIPT_PARAM_ONOFF, true)
  
- 
- 
         Config:addSubMenu("[Superman Nocturne]: Use Items", "items")
-        Config.items:addParam("item1", "use youmus", SCRIPT_PARAM_ONOFF, true)
-        Config.items:addParam("useblade", "Use Botrk", SCRIPT_PARAM_ONOFF, true)
-        Config.items:addParam("usehydra", "Use Hydra", SCRIPT_PARAM_ONOFF, true)
-                
+				Config.items:addParam("useitem5", "Use Items", SCRIPT_PARAM_ONOFF, true)
                 EnemyMinions = minionManager(MINION_ENEMY, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
         jungleMinions = minionManager(MINION_JUNGLE, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
-
-
-
 
      -----------Extra Option-------------
  
@@ -165,16 +129,11 @@ function OnLoad()
  
         print("<font color='#FF999'> [Superman Nocturne Loaded] <font color='#FF5555'> By Tom94")
  
- 
- 
- 
         Config:addSubMenu("[Superman Nocturne]: Drawings", "ddDraw")
         Config.ddDraw:addParam("drawq", "Draw Q range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawe", "Draw E range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawr", "Draw R range", SCRIPT_PARAM_ONOFF, true)
                 Config.ddDraw:addParam("drawaa", "Draw AA", SCRIPT_PARAM_ONOFF, false)
- 
- 
  
         Config:addSubMenu("[Superman Nocturne]: Orbwalker", "Orbwalker")
         SxOrb:LoadToMenu(Config.Orbwalker)
@@ -186,20 +145,11 @@ function OnLoad()
      Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
      Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
 
-
-
- 
         Config:addSubMenu("[Superman Nocturne] Selector", "TS")
                 Config.TS:addParam("ff20", "Focus Selected target", SCRIPT_PARAM_ONOFF, false)
                 TargetSelector.name = "Nocturne"
         Config.TS:addTS(ts)
 end
-
- 
- 
- 
- 
- 
 function Summoners()
         if myHero:GetSpellData(SUMMONER_1).name:find("summonerdot") then
                 ignite = SUMMONER_1
@@ -207,13 +157,6 @@ function Summoners()
                         ignite = SUMMONER_2
                 end
  end
- 
- 
- 
- 
- 
- 
- 
  function OnTick()
         ts:update()
         if Config.keys.Combo and Config.Combo.User then
@@ -255,8 +198,9 @@ function Summoners()
     llaneclear() end
 if Config.AutoW.autoe then
 autoe() end
+if Config.items.useitem5 then
+iiitem() end
 end
-
 
 function Abillities()
 QREADY = (myHero:CanUseSpell(_Q) == READY)
@@ -264,10 +208,7 @@ WREADY = (myHero:CanUseSpell(_W) == READY)
 EREADY = (myHero:CanUseSpell(_E) == READY)
 RREADY = (myHero:CanUseSpell(_R) == READY)
 end
- 
- 
- 
- 
+  
 function GetRRange()
         if myHero:GetSpellData(_R).level == 1 then
                 return 2000
@@ -277,8 +218,6 @@ function GetRRange()
                                 return 3500
                         end
 end
- 
- 
  
 function hydra()
     if Config.keys.Combo and Config.items.usehydra then
@@ -292,8 +231,6 @@ function hydra()
                                         end
 end
  
- 
- 
  function hydra2()
  if Config.keys.Combo and Config.items.usehydra then
  if ValidTarget(ts.target, 400) then
@@ -306,9 +243,6 @@ CastSpell(GetInventorySlotItem(3074))
  end
  end
  
- 
-
- 
 function Ulti()
   local RRange = GetRRange()
     if ValidTarget(ts.target) then
@@ -319,11 +253,6 @@ function Ulti()
 end
 end
  
- 
- 
- 
- 
-
 function Ignite()
 local iDmg = (50 + (20 * myHero.level))
         for i, enemy in ipairs(GetEnemyHeroes()) do
@@ -336,10 +265,6 @@ local iDmg = (50 + (20 * myHero.level))
     end
 end
 end
- 
- 
- 
- 
  
 function youmus()
         if ValidTarget(ts.target) and not (ts.target.dead) and (ts.target.visible) then
@@ -355,10 +280,6 @@ function youmus()
     end
 end
  
- 
- 
- 
-
 function blade1()
         if Config.keys.Combo and Config.items.useblade  then
         if ValidTarget(ts.target, 500) then
@@ -371,12 +292,6 @@ function blade1()
     end
 end
  
- 
- 
- 
- 
- 
-
 function blade2()
         if Config.keys.Combo and Config.items.useblade then
         if ValidTarget(ts.target, 500) then
@@ -389,12 +304,6 @@ function blade2()
     end
 end
  
- 
- 
- 
- 
- 
-
 function OnDraw()
    local RRange = GetRRange()
     if Config.ddDraw.drawq and QREADY then
@@ -411,9 +320,6 @@ function OnDraw()
                 end
 end
  
- 
- 
-
 function herass()
     if Config.keys.Herass then
         if QREADY and ValidTarget(ts.target, Qrange) then
@@ -427,10 +333,6 @@ function herass()
 end
 end
 
-
-
-
-
 function herass2()
 if ValidTarget(ts.target) then
 if EREADY and GetDistance(ts.target) <= Erange then
@@ -438,11 +340,6 @@ CastSpell(_E, ts.target)
 end
 end
 end
-
-
-
-
-
 
 function Comboo()
     if Config.keys.Combo and Config.Combo.Useq then
@@ -469,10 +366,6 @@ function Comboo()
                     end
 end
 
-
-
-
-
 function ExtraE()
 if ValidTarget(ts.target) then
 if EREADY and GetDistance(ts.target) <= Erange then
@@ -480,13 +373,6 @@ CastSpell(_E, ts.target)
 end
 end
 end
-
-
-
-
-
-
-
 
 function KillstealgG()
         for i, enemy in pairs(GetEnemyHeroes()) do
@@ -515,16 +401,6 @@ end
 end
 end
 
-
-
-
-
-
-
-
-
-
-
 function jjungleclear()
 for i, jungleMinion in pairs(jungleMinions.objects) do
     if jungleMinion ~= nil then
@@ -538,13 +414,6 @@ end
 end
 end
 
-
-
-
-
-
-
-
 function llaneclear()
  if jungleMinion == nil then
     for i, minion in pairs(EnemyMinions.objects) do
@@ -557,20 +426,25 @@ end
 end
 end
 
-
-
-
-
 function autoe()
 if EREADY and ValidTarget(ts.target, Erange) then
 CastSpell(_E, ts.target)
 end
 end
 
-
-
-
-
+function iiitem()
+    if target == nil then return end
+    for _, item in pairs(items) do
+        item.slot = GetInventorySlotItem(item.id)
+        if item.slot ~= nil then
+            if item.bbb and GetDistance(target) < item.range then
+                CastSpell(item.slot, target)
+            elseif not item.bbb then
+                CastSpell(item.slot)
+            end
+        end
+    end
+end
 function OnWndMsg(Msg, Key)
     if Msg == WM_LBUTTON and Config.keys.Combo then
         local ddDistance55 = 0
