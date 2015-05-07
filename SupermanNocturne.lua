@@ -92,6 +92,7 @@ function OnLoad()
         Config = scriptConfig("[Superman Nocturne]", "Superman Nocturne")
         Config:addSubMenu("[Superman Nocturne]: Keys", "keys")
         Config.keys:addParam("Combo", "combo", SCRIPT_PARAM_ONKEYDOWN, false, 32)
+				Config.keys:permaShow("Combo")
         Config.keys:addParam("Laneclear", "laneclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("V"))
         Config.keys:addParam("Jungleclear", "jungleclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("X"))
         Config.keys:addParam("Herass", "Herass", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("C"))
@@ -179,6 +180,7 @@ function OnLoad()
         SxOrb:LoadToMenu(Config.Orbwalker)
  
        Config:addSubMenu("[Superman Nocturne]: AutoW","AutoW")
+			 Config.AutoW:addParam("autoe", "Auto E on Target", SCRIPT_PARAM_ONOFF, true)
        Config.AutoW:addSubMenu("maybe somday", "tm")
              
      Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
@@ -251,6 +253,8 @@ function Summoners()
   jungleMinions:update()
     if Config.keys.Laneclear then
     llaneclear() end
+if Config.AutoW.autoe then
+autoe() end
 end
 
 
@@ -550,6 +554,16 @@ function llaneclear()
             end
 end
 end
+end
+end
+
+
+
+
+
+function autoe()
+if EREADY and ValidTarget(ts.target, Erange) then
+CastSpell(_E, ts.target)
 end
 end
 
