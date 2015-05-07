@@ -159,8 +159,8 @@ function OnLoad()
      -----------Extra Option-------------
  
  
-        Config:addParam("info", "[Superman Nocturne]:Version:", SCRIPT_PARAM_INFO, ""..version.."")
-        Config:addParam("info2", "[Superman Nocturne]:Author:", SCRIPT_PARAM_INFO, ""..author.."")
+        Config:addParam("info", "Version", SCRIPT_PARAM_INFO, ""..version.."")
+        Config:addParam("info2", "Author", SCRIPT_PARAM_INFO, ""..author.."")
  
         print("<font color='#FF999'> [Superman Nocturne Loaded] <font color='#FF5555'> By Tom94")
  
