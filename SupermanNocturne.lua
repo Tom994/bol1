@@ -60,7 +60,6 @@ local Erange = 500
 local Ewidth = nil 
 local Espeed = nil 
 local Edelay = 0.5
-local QREADY, WREADY, EREADY, RREADY = false
 local Wrange = nil
 local ignite = nil
 local levelSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
@@ -175,7 +174,6 @@ function Summoners()
          Comboo()
                  hydra2()
         GetRRange()
-                Abillities()
                 if Config.keys.Herass and Config.Herass.Herass2 then
                 herass2()
                 end
@@ -202,12 +200,6 @@ if Config.items.useitem5 then
 iiitem() end
 end
 
-function Abillities()
-QREADY = (myHero:CanUseSpell(_Q) == READY)
-WREADY = (myHero:CanUseSpell(_W) == READY)
-EREADY = (myHero:CanUseSpell(_E) == READY)
-RREADY = (myHero:CanUseSpell(_R) == READY)
-end
   
 function GetRRange()
         if myHero:GetSpellData(_R).level == 1 then
@@ -306,13 +298,13 @@ end
  
 function OnDraw()
    local RRange = GetRRange()
-    if Config.ddDraw.drawq and QREADY then
+    if Config.ddDraw.drawq and myHero:CanUseSpell(_Q) == READY then
                         DrawCircle(myHero.x, myHero.y, myHero.z, 1200, 0xFF000)
                 end
-    if RREADY and Config.ddDraw.drawr then
+    if myHero:CanUseSpell(_R) == READY  and Config.ddDraw.drawr then
       DrawCircle(myHero.x, myHero.y, myHero.z, RRange, 0xFF000)
     end
-        if Config.ddDraw.drawe and EREADY then
+        if Config.ddDraw.drawe and myHero:CanUseSpell(_E) == READY then
         DrawCircle(myHero.x, myHero.y, myHero.z, 425, 0xFF000)
         end
                 if Config.ddDraw.drawaa then
@@ -322,7 +314,7 @@ end
  
 function herass()
     if Config.keys.Herass then
-        if QREADY and ValidTarget(ts.target, Qrange) then
+        if myHero:CanUseSpell(_Q) == READY and ValidTarget(ts.target, Qrange) then
             if Config.Herass.Herass1 then
             local CastPosition, HitChance, Position = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
             if HitChance >= 2 then
@@ -335,7 +327,7 @@ end
 
 function herass2()
 if ValidTarget(ts.target) then
-if EREADY and GetDistance(ts.target) <= Erange then
+if myHero:CanUseSpell(_E) == READY  and GetDistance(ts.target) <= Erange then
 CastSpell(_E, ts.target)
 end
 end
@@ -343,19 +335,19 @@ end
 
 function Comboo()
     if Config.keys.Combo and Config.Combo.Useq then
-        if QREADY and ValidTarget(ts.target, Qrange) then
+        if myHero:CanUseSpell(_Q) == READY and ValidTarget(ts.target, Qrange) then
         local CastPosition, HitChance, Position = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
         if HitChance >= 2 then
         CastSpell(_Q, CastPosition.x, CastPosition.z)
     end
     if Config.keys.Combo and Config.Combo.Usee then
         if ValidTarget(ts.target, Erange) then
-            if EREADY and GetDistance(ts.target) <= Erange then
+            if myHero:CanUseSpell(_E) == READY  and GetDistance(ts.target) <= Erange then
                 CastSpell(_E, ts.target)
             end
             if Config.keys.Combo and Config.Combo.Usew then
                 if ValidTarget(ts.target, Wrange) then
-                    if WREADY and GetDistance(ts.target) then
+                    if myHero:CanUseSpell(_W) == READY  and GetDistance(ts.target) then
                         CastSpell(_W)
                                             end
                                         end
@@ -368,7 +360,7 @@ end
 
 function ExtraE()
 if ValidTarget(ts.target) then
-if EREADY and GetDistance(ts.target) <= Erange then
+if myHero:CanUseSpell(_E) == READY and GetDistance(ts.target) <= Erange then
 CastSpell(_E, ts.target)
 end
 end
@@ -376,7 +368,7 @@ end
 
 function KillstealgG()
         for i, enemy in pairs(GetEnemyHeroes()) do
-        if ValidTarget(enemy) and not enemy.dead and RREADY then
+        if ValidTarget(enemy) and not enemy.dead and myHero:CanUseSpell(_R) == READY  then
             RDMG = getDmg("R", enemy, myHero)
             if enemy.health < RDMG then
                 if GetDistance(enemy) <= GetRRange() then
@@ -384,7 +376,7 @@ function KillstealgG()
                         CastSpell(_R, enemy)
                         CastSpell(_R, enemy)
                     end
-                                    if ValidTarget(enemy) and not enemy.dead and QREADY then
+                                    if ValidTarget(enemy) and not enemy.dead and myHero:CanUseSpell(_Q) == READY then
                                     QDMG = getDmg("Q", enemy, myHero)
                                     if enemy.health < QDMG then
                                     if GetDistance(enemy) <= Qrange then
@@ -405,7 +397,7 @@ function jjungleclear()
 for i, jungleMinion in pairs(jungleMinions.objects) do
     if jungleMinion ~= nil then
         if GetDistance(jungleMinion) <= Qrange then
-          if QREADY and Config.Jungleclear.Jungq then
+          if myHero:CanUseSpell(_Q) == READY and Config.Jungleclear.Jungq then
             CastSpell(_Q, jungleMinion.x, jungleMinion.z)
           end
 
@@ -418,7 +410,7 @@ function llaneclear()
  if jungleMinion == nil then
     for i, minion in pairs(EnemyMinions.objects) do
       if minion ~= nil then
-            if QREADY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
+            if myHero:CanUseSpell(_Q) == READY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
             CastSpell(_Q, minion.x, minion.z)
             end
 end
@@ -427,7 +419,7 @@ end
 end
 
 function autoe()
-if EREADY and ValidTarget(ts.target, Erange) then
+if myHero:CanUseSpell(_E) == READY and ValidTarget(ts.target, Erange) then
 CastSpell(_E, ts.target)
 end
 end
