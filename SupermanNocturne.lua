@@ -1,7 +1,3 @@
-local version = "1.0"
-local author = "Tom94"
- 
- 
 function Update1()
 local version = "1.0"
 local author = "Tom94"
@@ -40,12 +36,9 @@ if autoupdateenabled then
         AddTickCallback(update)
 end
 end
+
 if myHero.charName ~= "Nocturne" then return end
-if VIP_USER then
-    print("<font color='#FF000'> Cool you are VIP =)")
-else
-    print("<font color='FF0000'> Hey VIP is really a good thing :P")
-end
+
 require "SxOrbWalk"
 require "VPrediction"
 local ts
@@ -56,24 +49,15 @@ ts = TargetSelector(TARGET_MOST_AD, 3500, DAMAGE_PHYSICAL)
 ---- and also should set Use R /Rks  off
 local VP
 local Qrange, Qwidth, Qspeed, Qdelay = 1125, 60, 1600, .5
+local Qrange, Qwidth, Qspeed, Qdelay = 1125, 60, 1600, .5
 local Erange = 500
-local Ewidth = nil 
-local Espeed = nil 
-local Edelay = 0.5
-local Wrange = nil
+local version = "1.0"
+local author = "Tom94"
 local ignite = nil
-local levelSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
-local items =
-{
-    BRK = { id = 3153, range = 500, bbb = true, slot = nil },
-    BWC = { id = 3144, range = 400, bbb = true, slot = nil },
-    DFG = { id = 3128, range = 750, bbb = true, slot = nil },
-    HGB = { id = 3146, range = 400, bbb = true, slot = nil },
-    RSH = { id = 3074, range = 350, bbb = false, slot = nil },
-    STD = { id = 3131, range = 350, bbb = false, slot = nil },
-    TMT = { id = 3077, range = 350, bbb = false, slot = nil },
-    YGB = { id = 3142, range = 350, bbb = false, slot = nil }
-}
+local lSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
+
+
+
 function OnLoad()
         VP = VPrediction()
         Summoners()
@@ -81,7 +65,7 @@ function OnLoad()
         Config = scriptConfig("[Superman Nocturne]", "Superman Nocturne")
         Config:addSubMenu("[Superman Nocturne]: Keys", "keys")
         Config.keys:addParam("Combo", "combo", SCRIPT_PARAM_ONKEYDOWN, false, 32)
-				Config.keys:permaShow("Combo")
+                                Config.keys:permaShow("Combo")
         Config.keys:addParam("Laneclear", "laneclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("X"))
         Config.keys:addParam("Jungleclear", "jungleclear", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("X"))
         Config.keys:addParam("Herass", "Herass", SCRIPT_PARAM_ONKEYDOWN, false, string.byte ("C"))
@@ -116,11 +100,11 @@ function OnLoad()
         Config.KillSteal:addParam("ignite", "KillSteal with Ignite", SCRIPT_PARAM_ONOFF, true)
  
         Config:addSubMenu("[Superman Nocturne]: Use Items", "items")
-				Config.items:addParam("useitem5", "Use Items", SCRIPT_PARAM_ONOFF, true)
-                EnemyMinions = minionManager(MINION_ENEMY, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
+        Config.items:addParam("useitem5", "Use Items", SCRIPT_PARAM_ONOFF, true)
+        EnemyMinions = minionManager(MINION_ENEMY, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
         jungleMinions = minionManager(MINION_JUNGLE, Qrange, myHero, MINION_SORT_MAXHEALTH_DEC)
 
-     -----------Extra Option-------------
+        
  
  
         Config:addParam("info", "Version:", SCRIPT_PARAM_INFO, ""..version.."")
@@ -132,23 +116,25 @@ function OnLoad()
         Config.ddDraw:addParam("drawq", "Draw Q range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawe", "Draw E range", SCRIPT_PARAM_ONOFF, true)
         Config.ddDraw:addParam("drawr", "Draw R range", SCRIPT_PARAM_ONOFF, true)
-                Config.ddDraw:addParam("drawaa", "Draw AA", SCRIPT_PARAM_ONOFF, false)
+        Config.ddDraw:addParam("drawaa", "Draw AA", SCRIPT_PARAM_ONOFF, false)
  
         Config:addSubMenu("[Superman Nocturne]: Orbwalker", "Orbwalker")
         SxOrb:LoadToMenu(Config.Orbwalker)
  
-       Config:addSubMenu("[Superman Nocturne]: AutoW","AutoW")
-			 Config.AutoW:addParam("autoe", "Auto E on Target", SCRIPT_PARAM_ONOFF, true)
-       Config.AutoW:addSubMenu("maybe somday", "tm")
+        Config:addSubMenu("[Superman Nocturne]: AutoW","AutoW")
+        Config.AutoW:addParam("autoe", "Auto E on Target", SCRIPT_PARAM_ONOFF, true)
+        Config.AutoW:addSubMenu("maybe somday", "tm")
              
-     Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
-     Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
+        Config:addSubMenu("[Superman Nocturne]: Auto Level Skills", "autolevel")
+        Config.autolevel:addParam("autolvl", "Auto Level Skills", SCRIPT_PARAM_ONOFF, false)
 
-        Config:addSubMenu("[Superman Nocturne] Selector", "TS")
-                Config.TS:addParam("ff20", "Focus Selected target", SCRIPT_PARAM_ONOFF, false)
-                TargetSelector.name = "Nocturne"
+        Config:addSubMenu("[Superman Nocturne]: Selector", "TS")
+        Config.TS:addParam("ff20", "Focus Selected target", SCRIPT_PARAM_ONOFF, false)
+        TargetSelector.name = "Nocturne"
         Config.TS:addTS(ts)
 end
+
+
 function Summoners()
         if myHero:GetSpellData(SUMMONER_1).name:find("summonerdot") then
                 ignite = SUMMONER_1
@@ -156,51 +142,36 @@ function Summoners()
                         ignite = SUMMONER_2
                 end
  end
- function OnTick()
+
+
+function OnTick()
         ts:update()
         if Config.keys.Combo and Config.Combo.User then
-                Ulti()
-                                end
-                                Ignite()
-                                if Config.keys.Combo and Config.items.item1 then
-                                youmus()
-                                end
-        if Config.keys.Herass then
-            herass()
-        end
-         blade1()
-         blade2()
-         hydra()
-         Comboo()
-                 hydra2()
+        Ulti() end
+        Ignite()
+        Comboo()
         GetRRange()
-                if Config.keys.Herass and Config.Herass.Herass2 then
-                herass2()
-                end
-                if Config.keys.Combo and Config.Combo.Usee then
-                    ExtraE()
-                end
-                if Config.KillSteal.Qsteal then
-                    KillstealgG() end
-                    if Config.KillSteal.Rsteal  then
-                        KillstealgG()
-                    end
-                                        if Config.autolevel.autolvl then
-                                        autoLevelSetSequence(levelSequence)
-                                        end
-                                        if Config.keys.Jungleclear then
-                                        jjungleclear() end
-                                          EnemyMinions:update()
-  jungleMinions:update()
-    if Config.keys.Laneclear then
-    llaneclear() end
-if Config.AutoW.autoe then
-autoe() end
-if Config.items.useitem5 then
-iiitem() end
+        if Config.keys.Herass then
+        herass() end
+        if Config.keys.Herass and Config.Herass.Herass2 then
+        herass2() end   
+        if Config.KillSteal.Qsteal then
+        KillstealgG() end
+        if Config.KillSteal.Rsteal  then
+        KillstealgG() end                   
+        if Config.autolevel.autolvl then
+        autoLevelSetSequence(lSequence) end                                       
+        if Config.keys.Jungleclear then
+        jjungleclear() end
+        EnemyMinions:update()
+        jungleMinions:update()
+        if Config.keys.Laneclear then
+        llaneclear() end
+        if Config.AutoW.autoe then
+        autoe() end
 end
 
-  
+
 function GetRRange()
         if myHero:GetSpellData(_R).level == 1 then
                 return 2000
@@ -210,251 +181,148 @@ function GetRRange()
                                 return 3500
                         end
 end
- 
-function hydra()
-    if Config.keys.Combo and Config.items.usehydra then
-        if ValidTarget(ts.target, 400) then
-            if (GetInventorySlotItem(3077) ~= nil) then
-                if (myHero:CanUseSpell(GetInventorySlotItem(3077)) == READY) then
-                    CastSpell(GetInventorySlotItem(3077))
-                end
-                                                        end
-                                                end
-                                        end
-end
- 
- function hydra2()
- if Config.keys.Combo and Config.items.usehydra then
- if ValidTarget(ts.target, 400) then
- if (GetInventorySlotItem(3074) ~= nil) then
- if (myHero:CanUseSpell(GetInventorySlotItem(3074)) == READY) then
-CastSpell(GetInventorySlotItem(3074))
- end
- end
- end
- end
- end
- 
+
+
 function Ulti()
   local RRange = GetRRange()
-    if ValidTarget(ts.target) then
-  if RREADY and GetDistance(ts.target) <= RRange then
-    CastSpell(_R, ts.target)
-    CastSpell(_R, ts.target)
-  end
+  if (ts.target ~= nil) and myHero:CanUseSpell(_R) == READY then
+  if ValidTarget(ts.target) and GetDistance(ts.target, myHero) <= RRange then
+  CastSpell(_R, ts.target) end
+  CastSpell(_R, ts.target) end
 end
-end
- 
+
+
 function Ignite()
 local iDmg = (50 + (20 * myHero.level))
-        for i, enemy in ipairs(GetEnemyHeroes()) do
-                if GetDistance(enemy, myHero) < 600 and ValidTarget(enemy, 600) and Config.KillSteal.ignite then
-                        if myHero:CanUseSpell(ignite) == READY then
-                                if enemy.health < iDmg then
-                                        CastSpell(ignite, enemy)
-                                                                                end
-            end
-    end
+for i, enemy in ipairs(GetEnemyHeroes()) do
+if GetDistance(enemy, myHero) < 600 and ValidTarget(enemy, 600) and Config.KillSteal.ignite then
+if myHero:CanUseSpell(ignite) == READY then
+if enemy.health < iDmg then
+CastSpell(ignite, enemy)
 end
 end
- 
-function youmus()
-        if ValidTarget(ts.target) and not (ts.target.dead) and (ts.target.visible) then
-        if Config.keys.Combo and Config.items.item1 then
-            if myHero:GetDistance(ts.target) < 500 then
-                if (GetInventorySlotItem(3142) ~= nil) then
-                    if (myHero:CanUseSpell(GetInventorySlotItem(3142)) == READY) then
-                        CastSpell(GetInventorySlotItem(3142), ts.target)
-                    end
-                end
-            end
-        end
-    end
 end
- 
-function blade1()
-        if Config.keys.Combo and Config.items.useblade  then
-        if ValidTarget(ts.target, 500) then
-            if (GetInventorySlotItem(3144) ~= nil) then
-                if (myHero:CanUseSpell(GetInventorySlotItem(3144)) == READY) then
-                    CastSpell(GetInventorySlotItem(3144), ts.target)
-                end
-            end
-        end
-    end
 end
- 
-function blade2()
-        if Config.keys.Combo and Config.items.useblade then
-        if ValidTarget(ts.target, 500) then
-            if (GetInventorySlotItem(3153) ~= nil) then
-                if (myHero:CanUseSpell(GetInventorySlotItem(3153)) == READY) then
-                    CastSpell(GetInventorySlotItem(3153), ts.target)
-                end
-            end
-        end
-    end
 end
- 
+
+
 function OnDraw()
    local RRange = GetRRange()
     if Config.ddDraw.drawq and myHero:CanUseSpell(_Q) == READY then
-                        DrawCircle(myHero.x, myHero.y, myHero.z, 1200, 0xFF000)
-                end
+        DrawCircle(myHero.x, myHero.y, myHero.z, 1200, 0xFF000)
+        end
     if myHero:CanUseSpell(_R) == READY  and Config.ddDraw.drawr then
       DrawCircle(myHero.x, myHero.y, myHero.z, RRange, 0xFF000)
     end
         if Config.ddDraw.drawe and myHero:CanUseSpell(_E) == READY then
         DrawCircle(myHero.x, myHero.y, myHero.z, 425, 0xFF000)
         end
-                if Config.ddDraw.drawaa then
-                DrawCircle(myHero.x, myHero.y, myHero.z, 126, 0xFF000)
-                end
+        if Config.ddDraw.drawaa then
+        DrawCircle(myHero.x, myHero.y, myHero.z, 126, 0xFF000)
+        end
 end
- 
+
+
 function herass()
-    if Config.keys.Herass then
-        if myHero:CanUseSpell(_Q) == READY and ValidTarget(ts.target, Qrange) then
-            if Config.Herass.Herass1 then
-            local CastPosition, HitChance, Position = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
-            if HitChance >= 2 then
-                CastSpell(_Q, CastPosition.x, CastPosition.z)
-            end
-    end
-    end
-end
-end
-
-function herass2()
-if ValidTarget(ts.target) then
-if myHero:CanUseSpell(_E) == READY  and GetDistance(ts.target) <= Erange then
-CastSpell(_E, ts.target)
-end
-end
-end
-
-function Comboo()
-    if Config.keys.Combo and Config.Combo.Useq then
-        if myHero:CanUseSpell(_Q) == READY and ValidTarget(ts.target, Qrange) then
+        if (ts.target ~= nil) and myHero:CanUseSpell(_Q) == READY then
+        if ValidTarget(ts.target, Qrange) and GetDistance(ts.target, myHero) <= Qrange and Config.keys.Herass and Config.Herass.Herass1 then
         local CastPosition, HitChance, Position = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
         if HitChance >= 2 then
         CastSpell(_Q, CastPosition.x, CastPosition.z)
-    end
-    if Config.keys.Combo and Config.Combo.Usee then
-        if ValidTarget(ts.target, Erange) then
-            if myHero:CanUseSpell(_E) == READY  and GetDistance(ts.target) <= Erange then
-                CastSpell(_E, ts.target)
-            end
-            if Config.keys.Combo and Config.Combo.Usew then
-                if ValidTarget(ts.target, Wrange) then
-                    if myHero:CanUseSpell(_W) == READY  and GetDistance(ts.target) then
-                        CastSpell(_W)
-                                            end
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    end
+end
+end
+end
+end
+
+
+function herass2()
+    if (ts.target ~= nil) and myHero:CanUseSpell(_E) == READY then
+    if ValidTarget(ts.target) and GetDistance(ts.target, myHero) <= Erange then
+    CastSpell(_E, ts.target)
+end
+end
 end
 
-function ExtraE()
-if ValidTarget(ts.target) then
-if myHero:CanUseSpell(_E) == READY and GetDistance(ts.target) <= Erange then
-CastSpell(_E, ts.target)
+
+function Comboo()
+    if (ts.target ~= nil) and myHero:CanUseSpell(_Q) == READY then
+    if ValidTarget(ts.target, Qrange) and GetDistance(ts.target, myHero) <= Qrange and Config.keys.Combo and Config.Combo.Useq then
+    local CastPosition, HitChance, Position = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
+    if HitChance >= 2 then
+    CastSpell(_Q, CastPosition.x, CastPosition.z)
+    end
+    if (ts.target ~= nil) and myHero:CanUseSpell(_E) == READY then
+    if ValidTarget(ts.target, Erange) and GetDistance(ts.target, myHero) <= Erange and Config.keys.Combo and Config.Combo.Usee then
+    CastSpell(_E, ts.target)
+    end
+    if (ts.target ~= nil) and myHero:CanUseSpell(_W) == READY then
+    if ValidTarget(ts.target, 200) and Config.keys.Combo and Config.Combo.Usew then
+    CastSpell(_W)
 end
 end
 end
+end
+end
+end
+
 
 function KillstealgG()
-        for i, enemy in pairs(GetEnemyHeroes()) do
-        if ValidTarget(enemy) and not enemy.dead and myHero:CanUseSpell(_R) == READY  then
-            RDMG = getDmg("R", enemy, myHero)
-            if enemy.health < RDMG then
-                if GetDistance(enemy) <= GetRRange() then
-                    if Config.KillSteal.Rsteal then
-                        CastSpell(_R, enemy)
-                        CastSpell(_R, enemy)
-                    end
-                                    if ValidTarget(enemy) and not enemy.dead and myHero:CanUseSpell(_Q) == READY then
-                                    QDMG = getDmg("Q", enemy, myHero)
-                                    if enemy.health < QDMG then
-                                    if GetDistance(enemy) <= Qrange then
-                                    local CastPosition, HitChance, CastPosition = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
-                                    if HitChance >= 2 then
-                                    CastSpell(_Q, CastPosition.x, CastPosition.z)
-                                    end
-            end
-        end
-    end
+for i, enemy in pairs(GetEnemyHeroes()) do
+if ValidTarget(enemy) and not enemy.dead and myHero:CanUseSpell(_R) == READY  then
+RDMG = getDmg("R", enemy, myHero)
+if enemy.health < RDMG then
+if GetDistance(enemy) <= GetRRange() then
+if Config.KillSteal.Rsteal then
+CastSpell(_R, enemy)
+CastSpell(_R, enemy)
+end
+if ValidTarget(enemy) and not enemy.dead and myHero:CanUseSpell(_Q) == READY then
+QDMG = getDmg("Q", enemy, myHero)
+if enemy.health < QDMG then
+if GetDistance(enemy) <= Qrange then
+local CastPosition, HitChance, CastPosition = VP:GetLineCastPosition(ts.target, Qdelay, Qwidth, Qrange, Qspeed, myHero, false)
+if HitChance >= 2 then
+CastSpell(_Q, CastPosition.x, CastPosition.z)
 end
 end
 end
 end
 end
+end
+end
+end
+end
+
 
 function jjungleclear()
 for i, jungleMinion in pairs(jungleMinions.objects) do
-    if jungleMinion ~= nil then
-        if GetDistance(jungleMinion) <= Qrange then
-          if myHero:CanUseSpell(_Q) == READY and Config.Jungleclear.Jungq then
-            CastSpell(_Q, jungleMinion.x, jungleMinion.z)
-          end
+if jungleMinion ~= nil then
+if GetDistance(jungleMinion) <= Qrange then
+if myHero:CanUseSpell(_Q) == READY and Config.Jungleclear.Jungq then
+CastSpell(_Q, jungleMinion.x, jungleMinion.z)
+end
+end
+end
+end
+end
 
-end
-end
-end
-end
 
 function llaneclear()
- if jungleMinion == nil then
-    for i, minion in pairs(EnemyMinions.objects) do
-      if minion ~= nil then
-            if myHero:CanUseSpell(_Q) == READY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
-            CastSpell(_Q, minion.x, minion.z)
-            end
+if jungleMinion == nil then
+for i, minion in pairs(EnemyMinions.objects) do
+if minion ~= nil then
+if myHero:CanUseSpell(_Q) == READY and Config.Laneclear.laneq and GetDistance(minion) <= Qrange then
+CastSpell(_Q, minion.x, minion.z)
 end
 end
 end
 end
+end
+
+
 
 function autoe()
 if myHero:CanUseSpell(_E) == READY and ValidTarget(ts.target, Erange) then
 CastSpell(_E, ts.target)
 end
-end
-
-function iiitem()
-    if target == nil then return end
-    for _, item in pairs(items) do
-        item.slot = GetInventorySlotItem(item.id)
-        if item.slot ~= nil then
-            if item.bbb and GetDistance(target) < item.range then
-                CastSpell(item.slot, target)
-            elseif not item.bbb then
-                CastSpell(item.slot)
-            end
-        end
-    end
-end
-function OnWndMsg(Msg, Key)
-    if Msg == WM_LBUTTON and Config.keys.Combo then
-        local ddDistance55 = 0
-        local abctarget = nil
-        for i, unit in ipairs(GetEnemyHeroes()) do
-            if ValidTarget(enemy) then
-                if GetDistance(enemy, mousePos) <= ddDistance55 or abctarget == nil then
-                    ddDistance55 = GetDistance(enemy, mousePos)
-                    abctarget = enemy
-                end
-            end
-        end
-        if abctarget and ddDistance55 < 150 then
-            if SelectedTarget and Target.charName == SelectedTarget.charName then
-                SelectedTarget = nil
-            else
-                SelectedTarget = Target
-            end
-        end
-    end
 end
