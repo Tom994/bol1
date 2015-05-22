@@ -1,9 +1,5 @@
 function Update1()
 local version = "1.0"
-local author = "Tom94"
- 
- 
- 
 local autoupdateenabled = true
 local UPDATE_SCRIPT_NAME = "SupermanNocturne"
 local UPDATE_HOST = "raw.github.com"
