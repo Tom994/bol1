@@ -1,5 +1,5 @@
 function Update1()
-local version = "1.1"
+local version = "1.3"
 local autoupdateenabled = true
 local UPDATE_SCRIPT_NAME = "SupermanNocturne"
 local UPDATE_HOST = "raw.github.com"
@@ -47,7 +47,7 @@ local VP
 local Qrange, Qwidth, Qspeed, Qdelay = 1125, 60, 1600, .5
 local Qrange, Qwidth, Qspeed, Qdelay = 1125, 60, 1600, .5
 local Erange = 500
-local version = "1.1"
+local version = "1.3"
 local author = "Tom94"
 local ignite = nil
 local lSequence = {1,2,3,1,1,4,1,3,1,3,4,3,3,2,2,4,2,2}
