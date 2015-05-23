@@ -1,5 +1,5 @@
 function Update1()
-local version = "1.0"
+local version = "1.1"
 local autoupdateenabled = true
 local UPDATE_SCRIPT_NAME = "SupermanNocturne"
 local UPDATE_HOST = "raw.github.com"
@@ -22,9 +22,9 @@ if autoupdateenabled then
                         end
  
                         if ServerVersion ~= nil and tonumber(ServerVersion) ~= nil and tonumber(ServerVersion) > tonumber(version) then
-                                DownloadFile(UPDATE_URL.."?nocache"..myHero.charName..os.clock(), UPDATE_FILE_PATH, function () print("<font color=\"#6699FF\"><b>"..UPDATE_SCRIPT_NAME..":</b> successfully updated. Reload (double F9) Please. ("..version.." => "..ServerVersion..")</font>") end)    
+                                DownloadFile(UPDATE_URL.."?nocache"..myHero.charName..os.clock(), UPDATE_FILE_PATH, function () print("<font color=\"#FF0000\"><b>"..UPDATE_SCRIPT_NAME..":</b> successfully updated. Reload (double F9) Please. ("..version.." => "..ServerVersion..")</font>") end)    
                         elseif ServerVersion then
-                                print("<font color=\"#6699FF\"><b>"..UPDATE_SCRIPT_NAME..":</b> You have got the latest version: <u><b>"..ServerVersion.."</b></u></font>")
+                                print("<font color=\"#FFFF00\"><b>"..UPDATE_SCRIPT_NAME..":</b> You have got the latest version: <u><b>"..ServerVersion.."</b></u></font>")
                         end            
                         ServerData = nil
                 end
